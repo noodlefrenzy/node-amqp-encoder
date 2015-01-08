@@ -14,6 +14,11 @@ describe('Builder', function() {
             var encoded = b.number(123).encode();
             encoded.should.eql(['ubyte', 123]);
         });
+        it('should work with convenience methods', function() {
+            var b = new builder();
+            var encoded = b.$uint(123).encode();
+            encoded.should.eql(['uint', 123]);
+        });
     });
 
     describe('#described()', function() {
