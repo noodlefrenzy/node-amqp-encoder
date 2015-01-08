@@ -50,5 +50,6 @@ describe('Builder', function() {
                 end().encode();
             encoded.should.eql(['map', 'key1', ['ubyte', 123], 'key2', ['byte', -123]]);
         });
-    })
+    });
+
 });
