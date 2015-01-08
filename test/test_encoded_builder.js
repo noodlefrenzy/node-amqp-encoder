@@ -19,6 +19,11 @@ describe('Builder', function() {
             var encoded = b.$uint(123).encode();
             encoded.should.eql(['uint', 123]);
         });
+        it('should cope with nulls', function() {
+            var b = new builder();
+            var encoded = b.number('uint', null).encode();
+            (encoded === null).should.be.true;
+        })
     });
 
     describe('#described()', function() {
@@ -55,6 +60,20 @@ describe('Builder', function() {
                 end().encode();
             encoded.should.eql(['map', 'key1', ['ubyte', 123], 'key2', ['byte', -123]]);
         });
+        it('should allow nested described types', function() {
+            var b = new builder();
+            var encoded = b.described().$ulong(0x12).
+                list().
+                  string('name').
+                  append(new builder().described().$ulong(0x70).list().string('source').end()).
+                end().encode();
+            encoded.should.eql([ 'described', ['ulong', 0x12],
+                ['list',
+                    'name',
+                    ['described', ['ulong', 0x70], ['list', 'source']]
+                ]
+            ]);
+        })
     });
 
 });
