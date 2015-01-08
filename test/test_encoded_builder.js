@@ -38,6 +38,20 @@ describe('Builder', function() {
                 list().number('ushort', 1).number('ulong', 1).end().encode();
             encoded.should.eql([ 'described', ['symbol', 'amqp:list:begin'], ['list', ['ushort', 1], ['ulong', 1]]]);
         });
+        it('should allow nested described types', function() {
+            var b = new builder();
+            var encoded = b.described().$ulong(0x12).
+                list().
+                string('name').
+                append(new builder().described().$ulong(0x70).list().string('source').end()).
+                end().encode();
+            encoded.should.eql([ 'described', ['ulong', 0x12],
+                ['list',
+                    'name',
+                    ['described', ['ulong', 0x70], ['list', 'source']]
+                ]
+            ]);
+        });
     });
 
     describe('#list()', function() {
@@ -49,6 +63,11 @@ describe('Builder', function() {
                 end().encode();
             encoded.should.eql([ 'list', ['ubyte', 123], 'foo']);
         });
+        it('should build empty lists', function() {
+            var b = new builder();
+            var encoded = b.list().end().encode();
+            encoded.should.eql(['list']);
+        })
     });
 
     describe('#map()', function() {
@@ -60,20 +79,11 @@ describe('Builder', function() {
                 end().encode();
             encoded.should.eql(['map', 'key1', ['ubyte', 123], 'key2', ['byte', -123]]);
         });
-        it('should allow nested described types', function() {
+        it('should allow empty maps', function() {
             var b = new builder();
-            var encoded = b.described().$ulong(0x12).
-                list().
-                  string('name').
-                  append(new builder().described().$ulong(0x70).list().string('source').end()).
-                end().encode();
-            encoded.should.eql([ 'described', ['ulong', 0x12],
-                ['list',
-                    'name',
-                    ['described', ['ulong', 0x70], ['list', 'source']]
-                ]
-            ]);
-        })
+            var encoded = b.map().end().encode();
+            encoded.should.eql(['map']);
+        });
     });
 
 });

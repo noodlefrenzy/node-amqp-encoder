@@ -42,6 +42,11 @@ describe('toBufferBuilder', function() {
             var expected = tu.newBuf([0xc0, 1 + 6 + 2, 2, 0xa1, 4, builder.prototype.appendString, 'val1', 0x54, -123]);
             tu.shouldBufEql(expected, toBuilder(input));
         });
+        it('should encode empty lists', function() {
+            var input = ['list'];
+            var expected = tu.newBuf([0x45]);
+            tu.shouldBufEql(expected, toBuilder(input));
+        })
     });
 
     describe('#map()', function() {
@@ -50,6 +55,11 @@ describe('toBufferBuilder', function() {
             var expected = tu.newBuf([0xc1, 1 + 6 + 2, 2, 0xa1, 4, builder.prototype.appendString, 'key1', 0x54, -123]);
             tu.shouldBufEql(expected, toBuilder(input));
         });
+        it('should encode empty maps', function() {
+            var input = ['map'];
+            var expected = tu.newBuf([0xc1, 0, 0]);
+            tu.shouldBufEql(expected, toBuilder(input));
+        })
     });
 
 });
