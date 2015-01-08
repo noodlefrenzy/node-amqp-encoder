@@ -103,8 +103,12 @@ describe('Builder', function() {
             encoded.should.eql(['map', 'foo', ['ubyte', 123], 'bar', false, 'baz', 'value']);
 
             b.reset();
-            encoded = b.map(null).encode();
+            encoded = b.map({}).encode();
             encoded.should.eql(['map']);
+
+            b.reset();
+            encoded = b.map(null).encode();
+            (encoded === null).should.be.true;
         });
     });
 
@@ -119,7 +123,7 @@ describe('Builder', function() {
                 ['symbol', 'baz'], 'value']);
 
             b.reset();
-            encoded = b.fields(null).encode();
+            encoded = b.fields({}).encode();
             encoded.should.eql(['map']);
         });
     });
