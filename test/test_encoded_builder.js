@@ -67,7 +67,19 @@ describe('Builder', function() {
             var b = new builder();
             var encoded = b.list().end().encode();
             encoded.should.eql(['list']);
-        })
+        });
+        it('should work with described types', function() {
+            var b = new builder();
+            var key = 'keyname';
+            var val = "x < 'offset'";
+            var encoded = b.list().
+                symbol(key).
+                described().symbol(key).
+                string(val).
+                end().encode();
+            encoded.should.eql(['list', ['symbol', key],
+                ['described', ['symbol', key], val]]);
+        });
     });
 
     describe('#map()', function() {
@@ -82,6 +94,32 @@ describe('Builder', function() {
         it('should allow empty maps', function() {
             var b = new builder();
             var encoded = b.map().end().encode();
+            encoded.should.eql(['map']);
+        });
+        it('should encode object if given', function() {
+            var b = new builder();
+            var map = { foo: 123, bar: false, baz: 'value' };
+            var encoded = b.map(map).encode();
+            encoded.should.eql(['map', 'foo', ['ubyte', 123], 'bar', false, 'baz', 'value']);
+
+            b.reset();
+            encoded = b.map(null).encode();
+            encoded.should.eql(['map']);
+        });
+    });
+
+    describe('#fields()', function() {
+        it('should encode object if given', function() {
+            var b = new builder();
+            var map = { foo: 123, bar: false, baz: 'value' };
+            var encoded = b.fields(map).encode();
+            encoded.should.eql(['map',
+                ['symbol', 'foo'], ['ubyte', 123],
+                ['symbol', 'bar'], false,
+                ['symbol', 'baz'], 'value']);
+
+            b.reset();
+            encoded = b.fields(null).encode();
             encoded.should.eql(['map']);
         });
     });
