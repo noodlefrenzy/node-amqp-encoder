@@ -22,7 +22,7 @@ describe('toBufferBuilder', function() {
     describe('#variable()', function() {
         it('should encode symbols', function() {
             var input = ['symbol', 'abc'];
-            var expected = tu.newBuf([0xa3, 3, builder.prototype.appendString, 'abc']);
+            var expected = tu.newBuf([0xa3, 3, 'abc']);
             tu.shouldBufEql(expected, toBuilder(input));
         })
     });
@@ -31,7 +31,7 @@ describe('toBufferBuilder', function() {
         it('should allow simple descriptors, values', function() {
             var str = 'open frame contents';
             var input = ['described', ['ulong', 0x10], str];
-            var expected = tu.newBuf([0x00, 0x53, 0x10, 0xa1, str.length, builder.prototype.appendString, str]);
+            var expected = tu.newBuf([0x00, 0x53, 0x10, 0xa1, str.length, str]);
             tu.shouldBufEql(expected, toBuilder(input));
         });
     });
@@ -39,7 +39,7 @@ describe('toBufferBuilder', function() {
     describe('#list()', function() {
         it('should encode simple lists', function() {
             var input = ['list', 'val1', ['int', -123]];
-            var expected = tu.newBuf([0xc0, 1 + 6 + 2, 2, 0xa1, 4, builder.prototype.appendString, 'val1', 0x54, -123]);
+            var expected = tu.newBuf([0xc0, 1 + 6 + 2, 2, 0xa1, 4, 'val1', 0x54, -123]);
             tu.shouldBufEql(expected, toBuilder(input));
         });
         it('should encode empty lists', function() {
@@ -52,7 +52,7 @@ describe('toBufferBuilder', function() {
     describe('#map()', function() {
         it('should encode simple maps', function() {
             var input = ['map', 'key1', ['int', -123]];
-            var expected = tu.newBuf([0xc1, 1 + 6 + 2, 2, 0xa1, 4, builder.prototype.appendString, 'key1', 0x54, -123]);
+            var expected = tu.newBuf([0xc1, 1 + 6 + 2, 2, 0xa1, 4, 'key1', 0x54, -123]);
             tu.shouldBufEql(expected, toBuilder(input));
         });
         it('should encode empty maps', function() {
@@ -62,5 +62,12 @@ describe('toBufferBuilder', function() {
         })
     });
 
+    describe('#array()', function() {
+        it('should be able to encode arrays of symbols', function () {
+            var input = ['array', 'symbol', 'array', 'of', 'symbols'];
+            var expected = tu.newBuf([0xe0, 1 + 1 + 6 + 3 + 8, 3, 0xa3, 5, 'array', 2, 'of', 7, 'symbols']);
+            tu.shouldBufEql(expected, toBuilder(input));
+        });
+    });
 });
 

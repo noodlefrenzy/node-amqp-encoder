@@ -26,6 +26,19 @@ describe('Builder', function() {
         })
     });
 
+    describe('#symbol()', function() {
+        it('should handle nulls', function() {
+            var b = new builder();
+            var encoded = b.symbol(null).encode();
+            (encoded === null).should.be.true;
+        });
+        it('should handle multiples', function() {
+            var b = new builder();
+            var encoded = b.symbol(['array', 'of', 'symbols']).encode();
+            encoded.should.eql(['array', 'symbol', 'array', 'of', 'symbols']);
+        });
+    });
+
     describe('#described()', function() {
         it('should allow simple descriptors, values', function() {
             var b = new builder();
