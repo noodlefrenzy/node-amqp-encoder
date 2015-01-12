@@ -24,18 +24,18 @@ The rough outline of the syntax is:
 
 Where the following types are available:
 
-    * byte, short, int, long, ubyte, ushort, uint, ulong
-    * float, double
-    * boolean
-    * string, symbol
-    * null (_note: no val needed here_)
-    * binary (_note: value should be a Node.js Buffer_)
+ * byte, short, int, long, ubyte, ushort, uint, ulong
+ * float, double
+ * boolean
+ * string, symbol
+ * null (_note: no val needed here_)
+ * binary (_note: value should be a Node.js Buffer_)
 
 And a few composite types as well:
 
-    * list, map - Encoded as: [ 'list', _val1_, _val2_, ... ]
-    * described - Encoded as: [ 'described', _descriptor_, _value_ ]
-    * array - Encoded as: [ 'array', _type_, _val1_, _val2_, ... ]
+ * list, map - Encoded as: [ 'list', _val1_, _val2_, ... ]
+ * described - Encoded as: [ 'described', _descriptor_, _value_ ]
+ * array - Encoded as: [ 'array', _type_, _val1_, _val2_, ... ]
 
 A few primitive types (strings, nulls, booleans) can be inferred, so you don't necessarily need to encode them.  See examples below.
 
