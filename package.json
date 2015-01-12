@@ -7,8 +7,7 @@
     "node": ">= 0.8"
   },
   "dependencies": {
-    "buffer-builder": "^0.1.0",
-    "debug": "^2.0.0"
+    "buffer-builder": "^0.2.0"
   },
   "devDependencies": {
     "jshint": "^2.5.11",
