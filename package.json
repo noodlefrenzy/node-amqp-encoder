@@ -1,7 +1,7 @@
 {
   "name": "node-amqp-encoder",
-  "version": "0.0.1",
-  "description": "AMQP-1.0 compatible Node encoder.  Simple encoder quasi-standard making interop with node libraries easier.",
+  "version": "0.0.2",
+  "description": "AMQP-1.0 compatible Node encoder.  Simple AMQP-specific-type encoder quasi-standard making interop between node libraries easier.",
   "main": "index.js",
   "engines": {
     "node": ">= 0.8"
