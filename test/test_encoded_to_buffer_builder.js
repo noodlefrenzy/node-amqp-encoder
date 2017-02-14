@@ -27,6 +27,26 @@ describe('toBufferBuilder', function() {
         })
     });
 
+    describe('#fixed()', function() {
+        it('should encode true', function() {
+            var input = ['boolean', true];
+            var expected = tu.newBuf([0x41]);
+            tu.shouldBufEql(expected, toBuilder(input));
+        });
+
+        it('should encode false', function() {
+            var input = ['boolean', false];
+            var expected = tu.newBuf([0x42]);
+            tu.shouldBufEql(expected, toBuilder(input));
+        });
+
+        it('should encode a UUID', function() {
+            var input = ['uuid', "f667a20f-a7d1-4ac9-9939-6f90c06d61d3"];
+            var expected = tu.newBuf([0x98, 0xF6, 0x67, 0xA2, 0x0F, 0xA7, 0xD1, 0x4A, 0xC9, 0x99, 0x39, 0x6F, 0x90, 0xC0, 0x6D, 0x61, 0xD3]);
+            tu.shouldBufEql(expected, toBuilder(input));
+        });
+    });
+
     describe('#described()', function() {
         it('should allow simple descriptors, values', function() {
             var str = 'open frame contents';
